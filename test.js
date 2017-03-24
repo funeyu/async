@@ -40,3 +40,18 @@ async.retry({times: 3, interval: 2000},
     } else {
       console.log(result)}
     });
+
+// =============================================
+// map的使用
+var AsyncSquare = {
+  squareExponent: 2,
+  square: function(number, callback) {
+    var result = Math.pow(number, this.squareExponent);
+    setTimeout(function() {
+      callback(null, result);
+    }, 2000);
+  }
+}
+async.map([1, 2, 3], AsyncSquare.square.bind(AsyncSquare), function(err, result) {
+  console.log(result)
+})

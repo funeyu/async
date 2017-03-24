@@ -1,3 +1,5 @@
+var assert = require('assert')
+
 module.exports =  async = {
   retry: function(options, calledMethod, callback) {
     var i = 1;
@@ -49,6 +51,28 @@ module.exports =  async = {
 
     for(var i = 0; i < methods.length; i++) {
       methods[i].call(null, callbacks(i));
+    }
+  },
+
+  map: function(datas, asyncFun, callback) {
+    assert(asyncFun.length >= 2, 'asyncFun 的参数个数要大于1')
+
+    var results = [], errors = [], done = 0;
+    var callbacks = function(i) {
+      return function(error, result) {
+        done ++
+        error
+          ? errors[i] = error
+          : results[i] = result
+
+        if(done === datas.length) {
+          callback(errors, results)
+        }
+      }
+    }
+
+    for(var i = 0, length = datas.length; i < length; i++) {
+      asyncFun.call(this, datas[i], callbacks(i))
     }
   }
 };
