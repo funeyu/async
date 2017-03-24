@@ -1,3 +1,23 @@
+/*
+亚洲铜 ----海子
+
+亚洲铜 亚洲铜
+祖父死在这里，父亲死在这里，我也会死在这里
+你是唯一的一块埋人的地方
+
+亚洲铜，亚洲铜
+爱怀疑和爱飞翔的是鸟，淹没一切的是海水
+你的主人却是青草，住在自己细小的腰上，守住野花的手掌和秘密
+
+亚洲铜，亚洲铜
+看见了吗？那两只白鸽子，它是屈原遗落在沙滩上的白鞋子
+让我们——我们和河流一起 穿上它吧
+
+亚洲铜，亚洲铜
+击鼓之后，我们把在黑暗中跳舞的心脏叫做月亮
+这月亮主要由你构成
+
+*/
 var assert = require('assert')
 
 module.exports =  async = {
@@ -89,7 +109,36 @@ module.exports =  async = {
   },
 
   // asyncFun 只要有一个error就立即stop所有其他的asyncFun? 能做到吗
+  // 呵呵 做不到
   eachI: function(datas, asyncFun, callback) {
 
+  },
+
+  series: function(tasks, callback) {
+    var error, results = []
+    var iter = function() {
+      var method = iter.next()
+      if(method) {
+        method.call(this, function(err, result) {
+          if(err){
+            callback(err)
+          } else {
+            results.push(result)
+            iter()
+          }
+        })
+      }
+      else {
+        callback(null, results)
+      }
+    }
+    iter.current = 0
+    iter.next = function() {
+      return (++iter.current) > tasks.length
+        ? null
+        :tasks[iter.current - 1]
+    }
+
+    return iter()
   }
 };

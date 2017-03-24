@@ -79,6 +79,18 @@ async.each(['12;jd;ajsf;oijasof', 'jasfja', 'asjdfiaj'], function(file, callback
     }
 });
 
+// =============================================
+// series的使用
+async.series([
+  function(callback) {
+    callback(null, 'one')
+  },
+  function(callback) {
+    callback(null, 'two')
+  }
+], function(err, results) {
+  console.log(results)
+})
 
 // =============================================
 // waterfall的使用
