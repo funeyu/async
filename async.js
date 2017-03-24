@@ -78,14 +78,18 @@ module.exports =  async = {
 
   each: function(datas, asyncFun, callback) {
 
-    var callbacks = function() {
-      return function(err) {
-        if (err)
-          callback(err)
+    var onError = function(err) {
+      if(err) {
+        callback(err)
       }
     }
     for(var i = 0; i < datas.length; i++) {
-      asyncFun.call(this, datas[i], callbacks())
+      asyncFun.call(this, datas[i], onError)
     }
+  },
+
+  // asyncFun 只要有一个error就立即stop所有其他的asyncFun? 能做到吗
+  eachI: function(datas, asyncFun, callback) {
+
   }
 };
