@@ -86,9 +86,26 @@ async.series([
     callback(null, 'one')
   },
   function(callback) {
-    callback(null, 'two')
+    callback('孩子')
   }
 ], function(err, results) {
+  if(err) {
+    return console.log(err);
+  }
+  console.log(results)
+})
+
+async.series([
+  function(callback) {
+    callback(null, 'one')
+  },
+  function(callback) {
+    callback(null, '海子')
+  }
+], function(err, results) {
+  if(err) {
+    return console.log(err);
+  }
   console.log(results)
 })
 
