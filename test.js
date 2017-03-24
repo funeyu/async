@@ -55,3 +55,49 @@ var AsyncSquare = {
 async.map([1, 2, 3], AsyncSquare.square.bind(AsyncSquare), function(err, result) {
   console.log(result)
 })
+
+// =============================================
+// each的使用
+var async = require('./async.js');
+async.each(['12;jd;ajsf;oijasof', 'jasfja', 'asjdfiaj'], function(file, callback) {
+
+  if( file.length > 12 ) {
+    console.log('This file name is too long');
+    callback('File name too long');
+  } else {
+    console.log('File processed');
+    callback();
+  }
+}, function(err){
+    // if any of the file processing produced an error, err would equal that error
+    if( err ) {
+      // One of the iterations produced an error.
+      // All processing will now stop.
+      console.log('A file failed to process');
+    } else {
+      console.log('All files have been processed successfully');
+    }
+});
+
+
+// =============================================
+// waterfall的使用
+// async.waterfall([
+//   myFirstFunction,
+//   mySecondFunction,
+//   myLastFunction
+// ], function (err, result) {
+//   console.log(result);
+// })
+//
+// function myFirstFunction(callback) {
+//   callback(null, 'one', 'two');
+// }
+// function mySecondFunction(arg1, arg2, callback) {
+//   console.log(arg1, arg2);
+//   callback(null, 'three');
+// }
+// function myLastFunction(arg1, callback) {
+//   console.log(arg1);
+//   callback(null, 'done');
+// }

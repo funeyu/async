@@ -74,5 +74,18 @@ module.exports =  async = {
     for(var i = 0, length = datas.length; i < length; i++) {
       asyncFun.call(this, datas[i], callbacks(i))
     }
+  },
+
+  each: function(datas, asyncFun, callback) {
+
+    var callbacks = function() {
+      return function(err) {
+        if (err)
+          callback(err)
+      }
+    }
+    for(var i = 0; i < datas.length; i++) {
+      asyncFun.call(this, datas[i], callbacks())
+    }
   }
 };
