@@ -111,22 +111,22 @@ async.series([
 
 // =============================================
 // waterfall的使用
-// async.waterfall([
-//   myFirstFunction,
-//   mySecondFunction,
-//   myLastFunction
-// ], function (err, result) {
-//   console.log(result);
-// })
-//
-// function myFirstFunction(callback) {
-//   callback(null, 'one', 'two');
-// }
-// function mySecondFunction(arg1, arg2, callback) {
-//   console.log(arg1, arg2);
-//   callback(null, 'three');
-// }
-// function myLastFunction(arg1, callback) {
-//   console.log(arg1);
-//   callback(null, 'done');
-// }
+async.waterfall([
+  myFirstFunction,
+  mySecondFunction,
+  myLastFunction
+], function (err, result) {
+  console.log(result);
+})
+
+function myFirstFunction(callback) {
+  callback(null, 'one', 'two');
+}
+function mySecondFunction(arg1, arg2, callback) {
+  console.log(arg1, arg2);
+  callback(null, 'three');
+}
+function myLastFunction(arg1, callback) {
+  console.log(arg1);
+  callback(null, 'done');
+}

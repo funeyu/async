@@ -140,5 +140,31 @@ module.exports =  async = {
     }
 
     return iter()
+  },
+
+  waterfall: function(tasks, callback) {
+    var iter = function() {
+      if(iter.current >= tasks.length) {
+        return callback.apply(null, [null].push(iter.arg));
+      }
+
+      iter.arg = iter.arg || [] ;
+      [].push.apply(iter.arg, [callWrapper]);
+      tasks[iter.current].apply(this, iter.arg);
+      iter.current ++;
+    }
+    iter.current = 0;
+
+    var callWrapper = function() {
+      var err = Array.prototype.slice.call(arguments, 0, 1);
+      if(err){
+        return callback(err)
+      }
+      iter.arg = Array.prototype.slice.call(arguments, 1, arguments.length);
+      console.log(iter.arg)
+      iter()
+    }
+
+    iter()
   }
 };
