@@ -149,7 +149,8 @@ module.exports =  async = {
       }
 
       iter.arg = iter.arg || [] ;
-      [].push.apply(iter.arg, [callWrapper]);
+      [].push.apply(iter.arg, callWrapper);
+      console.log('arg', iter.arg)
       tasks[iter.current].apply(this, iter.arg);
       iter.current ++;
     }
@@ -157,11 +158,10 @@ module.exports =  async = {
 
     var callWrapper = function() {
       var err = Array.prototype.slice.call(arguments, 0, 1);
-      if(err){
+      if(err[0]){
         return callback(err)
       }
       iter.arg = Array.prototype.slice.call(arguments, 1, arguments.length);
-      console.log(iter.arg)
       iter()
     }
 
