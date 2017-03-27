@@ -145,14 +145,16 @@ module.exports =  async = {
   waterfall: function(tasks, callback) {
     var iter = function() {
       if(iter.current >= tasks.length) {
-        return callback.apply(null, [null].push(iter.arg));
+        var done = [null];
+        Array.prototype.push.apply(done, arguments);
+        return callback.apply(this, done);
       }
 
-      iter.arg = iter.arg || [] ;
-      [].push.apply(iter.arg, callWrapper);
-      console.log('arg', iter.arg)
-      tasks[iter.current].apply(this, iter.arg);
-      iter.current ++;
+      arguments = Array.prototype.slice.apply(arguments)
+      console.log('argumet', arguments)
+      arguments.push(callWrapper)
+      console.log(arguments)
+      tasks[iter.current++].apply(this, arguments);
     }
     iter.current = 0;
 
@@ -161,8 +163,8 @@ module.exports =  async = {
       if(err[0]){
         return callback(err)
       }
-      iter.arg = Array.prototype.slice.call(arguments, 1, arguments.length);
-      iter()
+      let arg = Array.prototype.slice.call(arguments, 1, arguments.length);
+      iter(...arg)
     }
 
     iter()
