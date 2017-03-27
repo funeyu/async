@@ -108,10 +108,26 @@ module.exports =  async = {
     }
   },
 
-  // asyncFun 只要有一个error就立即stop所有其他的asyncFun? 能做到吗
-  // 呵呵 做不到
-  eachI: function(datas, asyncFun, callback) {
+  reduce: function(datas, acc, asyncTask, callback) {
 
+    var iter = function(pre) {
+      if(iter.current < datas.length) {
+        // 保证asyncTask 有三个参数 asyncTask(pre, curr, callback)
+        asyncTask.call(this, pre, datas[iter.current++], callWrapper)
+      }
+    }
+    iter.current = 0
+
+    var callWrapper = function(err, result) {
+      if(err)
+        return callback(err)
+      if(iter.current >= datas.length)
+        return callback(null, result)
+
+      iter(result)
+    }
+
+    iter(acc)
   },
 
   series: function(tasks, callback) {
