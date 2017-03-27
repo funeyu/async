@@ -139,7 +139,7 @@ module.exports =  async = {
         :tasks[iter.current - 1]
     }
 
-    return iter()
+    iter()
   },
 
   waterfall: function(tasks, callback) {
