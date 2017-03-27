@@ -117,16 +117,22 @@ function myFirstFunction(callback) {
 }
 function mySecondFunction(arg1, arg2, callback) {
   console.log(arg1, arg2, 'cooo');
-  callback(null, 'three');
+  setTimeout(function() {
+    callback(null, 'three');
+  }, 1000)
+
 }
 function myLastFunction(arg1, callback) {
   console.log(arg1);
-  callback(null, 'done');
+  callback('nullhellll', 'done');
 }
 async.waterfall([
   myFirstFunction,
   mySecondFunction,
   myLastFunction
 ], function (err, result) {
+  if(err) {
+    return console.log(err);
+  }
   console.log(result);
 })

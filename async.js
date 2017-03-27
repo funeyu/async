@@ -151,20 +151,17 @@ module.exports =  async = {
       }
 
       arguments = Array.prototype.slice.apply(arguments)
-      console.log('argumet', arguments)
       arguments.push(callWrapper)
-      console.log(arguments)
       tasks[iter.current++].apply(this, arguments);
     }
     iter.current = 0;
 
     var callWrapper = function() {
-      var err = Array.prototype.slice.call(arguments, 0, 1);
-      if(err[0]){
+      var err = Array.prototype.shift.call(arguments);
+      if(err){
         return callback(err)
       }
-      let arg = Array.prototype.slice.call(arguments, 1, arguments.length);
-      iter(...arg)
+      iter(...Array.prototype.slice.call(arguments))
     }
 
     iter()
