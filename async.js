@@ -184,6 +184,24 @@ module.exports =  async = {
   },
 
   compose: function() {
-    
+    if(arguments.length < 2) {
+      throw new Error('the arguments should be more than 2');
+    }
+
+    var funs = Array.prototype.slice.call(arguments).reverse();
+    return function(data, callback) {
+      var iter = function(err, result) {
+        if(err) {
+          return callback(err)
+        }
+        if(iter.current >= funs.length) {
+          return callback(null, result)
+        }
+        funs[iter.current ++].call(this, result, iter)
+      }
+      iter.current = 0;
+
+      iter(null, data)
+    }
   }
 };
