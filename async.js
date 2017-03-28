@@ -181,5 +181,9 @@ module.exports =  async = {
     }
 
     iter()
+  },
+
+  compose: function() {
+    
   }
 };
