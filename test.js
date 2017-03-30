@@ -167,3 +167,18 @@ var add1mul3 = async.compose(mul3, add1)
 add1mul3(4, function(err, result) {
   console.log(result)
 })
+
+// ============================================
+// whilst的使用
+var count = 0;
+
+async.whilst(
+    function () { return count < 5; },
+    function (callback) {
+        count++;
+        setTimeout(callback, 1000);
+    },
+    function (err) {
+        // 5 seconds have passed
+    }
+);
